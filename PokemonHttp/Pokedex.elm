@@ -103,8 +103,9 @@ fetchPokemon name =
     let
         decoder =
             PokemonModel.pokemonDecoder
-
         url =
-            "http://localhost:4567/pokemon/name/" ++ name
+            "https://pokeapi.co/api/v2/pokemon/" ++ String.toLower(name) ++ "/"
+        -- url =
+        --     "http://localhost:4567/pokemon/name/" ++ name
     in
         Http.send LoadPokemon (Http.get url decoder)
