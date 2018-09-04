@@ -41,13 +41,13 @@ update msg pokedex =
         PokemonViewMsg _ ->
             (pokedex, Cmd.none)
         UpdatePokedexSearch newSearch ->
-            ( newSearch |> asSearchIn pokedex, Cmd.none )
+            ({ pokedex | search = newSearch}, Cmd.none)
         FetchPokemon ->
             (pokedex, fetchPokemon pokedex.search)
         LoadPokemon result ->
             case result of
                 Ok pokemon ->
-                    ( { pokedex | pokemon = Just pokemon }, Cmd.none)
+                    ( { pokedex | pokemon = Just pokemon, error = Nothing }, Cmd.none)
                 Err _ ->
                     ( { pokedex | pokemon = Nothing, error = Just "Something went wrong." }, Cmd.none)
         ResetPokedex ->
@@ -87,16 +87,6 @@ view pokedex =
         Nothing ->
             loadPokemonView pokedex    
 
-
--- FUNCTIONS
-
-setSearch : String -> Pokedex -> Pokedex
-setSearch newSearch pokedex =
-    { pokedex | search = newSearch }
-
-asSearchIn : Pokedex -> String -> Pokedex
-asSearchIn =
-    flip setSearch
 
 fetchPokemon : String -> Cmd Msg
 fetchPokemon name =
