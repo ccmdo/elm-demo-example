@@ -1,8 +1,11 @@
 module Main exposing (main)
 
 import Html exposing (Html)
-
 import SeperateModel
+
+
+-- MAIN
+
 
 main : Program Never SeperateModel.Model SeperateModel.Msg
 main =
