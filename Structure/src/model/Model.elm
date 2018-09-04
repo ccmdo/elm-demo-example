@@ -1,10 +1,15 @@
 module Model exposing (..)
 
 import Pokedex exposing (..)
+import Pokemon exposing (..)
+import Http
 
 
 type Msg
     = NoOp
+    | FetchPokemon
+    | LoadPokemon (Result Http.Error Pokemon)
+    | UpdatePokedexSearch String
 
 
 type alias Model =
