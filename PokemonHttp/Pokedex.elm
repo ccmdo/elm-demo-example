@@ -7,11 +7,32 @@ import Html.Attributes exposing (class, src, type_, value, disabled)
 import Html.Events exposing (onInput, onClick)
 import Http
 
+
+-- MODEL
+
+
 type alias Pokedex =
     { search : String
     , pokemon : Maybe Pokemon
     , error : Maybe String
     }
+
+
+initialPokedex : Pokedex
+initialPokedex =
+    Pokedex "" Nothing Nothing
+
+
+init : ( Pokedex, Cmd Msg )
+init =
+    ( initialPokedex
+    , Cmd.none
+    )
+
+
+
+-- MESSAGES
+
 
 type Msg
     = UpdatePokedexSearch String
@@ -21,43 +42,41 @@ type Msg
     | PokemonViewMsg PokemonView.Msg
 
 
--- INIT
-
-initialPokedex : Pokedex
-initialPokedex =
-    Pokedex "" Nothing Nothing
-
-init : (Pokedex, Cmd Msg)
-init =
-    ( initialPokedex
-    , Cmd.none
-    )
 
 -- UPDATE
 
-update : Msg -> Pokedex -> (Pokedex, Cmd Msg)
+
+update : Msg -> Pokedex -> ( Pokedex, Cmd Msg )
 update msg pokedex =
     case msg of
         PokemonViewMsg _ ->
-            (pokedex, Cmd.none)
+            ( pokedex, Cmd.none )
+
         UpdatePokedexSearch newSearch ->
-            ({ pokedex | search = newSearch}, Cmd.none)
+            ( { pokedex | search = newSearch }, Cmd.none )
+
         FetchPokemon ->
-            (pokedex, fetchPokemon pokedex.search)
+            ( pokedex, fetchPokemon pokedex.search )
+
         LoadPokemon result ->
             case result of
                 Ok pokemon ->
-                    ( { pokedex | pokemon = Just pokemon, error = Nothing }, Cmd.none)
+                    ( { pokedex | pokemon = Just pokemon, error = Nothing }, Cmd.none )
+
                 Err _ ->
-                    ( { pokedex | pokemon = Nothing, error = Just "Something went wrong." }, Cmd.none)
+                    ( { pokedex | pokemon = Nothing, error = Just "Something went wrong." }, Cmd.none )
+
         ResetPokedex ->
-            (initialPokedex, Cmd.none)
+            ( initialPokedex, Cmd.none )
 
 
--- VIEWS
+
+-- VIEW
+
+
 loadPokemonView : Pokedex -> Html Msg
 loadPokemonView pokedex =
-    div [ class "load-pokemon"]
+    div [ class "load-pokemon" ]
         [ h4 [] [ text "Load pokemon" ]
         , label [] [ text "Pokemon name" ]
         , input
@@ -67,25 +86,31 @@ loadPokemonView pokedex =
             ]
             []
         , button
-            [ disabled (pokedex.search == "") 
+            [ disabled (pokedex.search == "")
             , onClick FetchPokemon
             ]
-            [ text "Search"]
+            [ text "Search" ]
         , p [] [ text pokedex.search ]
         , p [] [ text (Maybe.withDefault "" pokedex.error) ]
         ]
+
 
 view : Pokedex -> Html Msg
 view pokedex =
     case pokedex.pokemon of
         Just pokemon ->
             div []
-            [ PokemonView.view pokemon |> Html.map PokemonViewMsg
-            , button [ onClick ResetPokedex]
-                [ text "Reset"]
-            ]
+                [ PokemonView.view pokemon |> Html.map PokemonViewMsg
+                , button [ onClick ResetPokedex ]
+                    [ text "Reset" ]
+                ]
+
         Nothing ->
-            loadPokemonView pokedex    
+            loadPokemonView pokedex
+
+
+
+-- FUNCTIONS
 
 
 fetchPokemon : String -> Cmd Msg
@@ -93,8 +118,10 @@ fetchPokemon name =
     let
         decoder =
             PokemonModel.pokemonDecoder
+
         url =
-            "https://pokeapi.co/api/v2/pokemon/" ++ String.toLower(name) ++ "/"
+            "https://pokeapi.co/api/v2/pokemon/" ++ String.toLower (name) ++ "/"
+
         -- url =
         --     "http://localhost:4567/pokemon/name/" ++ name
     in
