@@ -22,6 +22,15 @@ update msg model =
                     { oldPokedex | search = newSearch }
             in
                 ( { model | pokedex = newPokedex }, Cmd.none )
+        ResetPokedexSearch ->
+                let
+                    oldPokedex =
+                        model.pokedex
+
+                    newPokedex =
+                        { oldPokedex | search = "", pokemon = Nothing, error = Nothing }
+                in
+                    ( { model | pokedex = newPokedex }, Cmd.none )
 
         LoadPokemon (Ok pokemon) ->
             let

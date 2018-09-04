@@ -10,10 +10,20 @@ view : Model -> Html Msg
 view model =
     case model.pokedex.pokemon of
         Just pokemon ->
-            div []
-                [ text (toString pokemon.id )
-                , text ": "
-                , text pokemon.name
+            div
+                []
+                [ div
+                    []
+                    [ text (toString pokemon.id)
+                    , text ": "
+                    , text pokemon.name
+                    ]
+                , div
+                    []
+                    [ button
+                        [ onClick ResetPokedexSearch ]
+                        [ text "Reset" ]
+                    ]
                 ]
 
         Nothing ->

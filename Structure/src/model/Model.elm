@@ -9,6 +9,7 @@ type Msg
     = NoOp
     | FetchPokemon
     | LoadPokemon (Result Http.Error Pokemon)
+    | ResetPokedexSearch
     | UpdatePokedexSearch String
 
 
