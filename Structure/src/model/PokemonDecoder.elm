@@ -3,7 +3,7 @@ module PokemonDecoder exposing (httpRequest, decoder)
 import Http
 import Json.Decode exposing (..)
 import Model exposing (..)
-import Pokemon exposing (..)
+import Model.Pokemon as Pokemon exposing (..)
 
 
 httpRequest : String -> Cmd Msg

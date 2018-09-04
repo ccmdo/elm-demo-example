@@ -1,7 +1,8 @@
 module Update exposing (update)
 
 import Model exposing (..)
-import PokemonDecoder
+import Update.Pokedex exposing (..)
+import Update.Pokemon exposing (..)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -11,43 +12,16 @@ update msg model =
             ( model, Cmd.none )
 
         FetchPokemon ->
-            ( model, PokemonDecoder.httpRequest model.pokedex.search )
+            Update.Pokemon.fetchPokemon model
 
         UpdatePokedexSearch newSearch ->
-            let
-                oldPokedex =
-                    model.pokedex
+            Update.Pokedex.updatePokedexSearch newSearch model
 
-                newPokedex =
-                    { oldPokedex | search = newSearch }
-            in
-                ( { model | pokedex = newPokedex }, Cmd.none )
         ResetPokedexSearch ->
-                let
-                    oldPokedex =
-                        model.pokedex
-
-                    newPokedex =
-                        { oldPokedex | search = "", pokemon = Nothing, error = Nothing }
-                in
-                    ( { model | pokedex = newPokedex }, Cmd.none )
+            Update.Pokedex.resetPokedexSearch model
 
         LoadPokemon (Ok pokemon) ->
-            let
-                oldPokedex =
-                    model.pokedex
-
-                newPokedex =
-                    { oldPokedex | pokemon = Just pokemon, error = Nothing }
-            in
-                ( { model | pokedex = newPokedex }, Cmd.none )
+            Update.Pokemon.loadPokemonSuccess pokemon model
 
         LoadPokemon (Err error) ->
-            let
-                oldPokedex =
-                    model.pokedex
-
-                newPokedex =
-                    { oldPokedex | pokemon = Nothing, error = Just (toString error) }
-            in
-                ( { model | pokedex = newPokedex }, Cmd.none )
+            Update.Pokemon.loadPokemonError error model

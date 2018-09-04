@@ -1,7 +1,7 @@
 module Model exposing (..)
 
-import Pokedex exposing (..)
-import Pokemon exposing (..)
+import Model.Pokedex as Pokedex exposing (..)
+import Model.Pokemon as Pokemon exposing (..)
 import Http
 
 

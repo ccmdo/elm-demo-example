@@ -1,6 +1,6 @@
-module Pokedex exposing (..)
+module Model.Pokedex exposing (..)
 
-import Pokemon exposing (..)
+import Model.Pokemon as Pokemon exposing (..)
 
 
 type alias Pokedex =
