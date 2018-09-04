@@ -1,14 +1,16 @@
 module Model exposing (..)
 
+import Pokedex exposing (..)
+
 
 type Msg
     = NoOp
 
 
 type alias Model =
-    {}
+    { pokedex : Pokedex }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( {}, Cmd.none )
+    ( { pokedex = Pokedex.newPokedex }, Cmd.none )
