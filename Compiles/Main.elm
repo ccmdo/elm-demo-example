@@ -3,12 +3,11 @@ module Main exposing (main)
 import Html exposing (Html, div, text)
 
 
+-- MODEL
+
+
 type alias Model =
     { hello : String }
-
-
-type Msg
-    = NoOp
 
 
 init : ( Model, Cmd Msg )
@@ -18,11 +17,27 @@ init =
     )
 
 
+
+-- MESSAGES
+
+
+type Msg
+    = NoOp
+
+
+
+-- UPDATE
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         NoOp ->
             ( model, Cmd.none )
+
+
+
+-- VIEW
 
 
 view : Model -> Html Msg
@@ -32,9 +47,17 @@ view model =
         [ text model.hello ]
 
 
+
+-- SUBSCRIPTIONS
+
+
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
+
+
+
+-- MAIN
 
 
 main : Program Never Model Msg
