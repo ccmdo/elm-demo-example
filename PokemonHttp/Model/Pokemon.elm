@@ -3,6 +3,7 @@ module Model.Pokemon exposing (Pokemon, pokemonDecoder)
 import Json.Decode exposing (..)
 
 
+
 -- MODEL
 
 
@@ -20,5 +21,5 @@ pokemonDecoder : Decoder Pokemon
 pokemonDecoder =
     map2
         Pokemon
-        (field "id" (int))
-        (field "name" (string))
+        (field "id" int)
+        (field "name" string)

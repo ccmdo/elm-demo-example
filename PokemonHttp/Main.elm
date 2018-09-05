@@ -1,7 +1,8 @@
 module Main exposing (main)
 
 import Html
-import Pokedex exposing (Pokedex, Msg)
+import Pokedex exposing (Msg, Pokedex)
+
 
 
 -- MAIN

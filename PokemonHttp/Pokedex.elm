@@ -1,11 +1,12 @@
-module Pokedex exposing (..)
+module Pokedex exposing (Msg(..), Pokedex, fetchPokemon, init, initialPokedex, loadPokemonView, update, view)
 
+import Html exposing (..)
+import Html.Attributes exposing (class, disabled, src, type_, value)
+import Html.Events exposing (onClick, onInput)
+import Http
 import Model.Pokemon as PokemonModel exposing (Pokemon, pokemonDecoder)
 import View.Pokemon as PokemonView exposing (view)
-import Html exposing (..)
-import Html.Attributes exposing (class, src, type_, value, disabled)
-import Html.Events exposing (onInput, onClick)
-import Http
+
 
 
 -- MODEL
@@ -120,9 +121,9 @@ fetchPokemon name =
             PokemonModel.pokemonDecoder
 
         url =
-            "https://pokeapi.co/api/v2/pokemon/" ++ String.toLower (name) ++ "/"
+            "https://pokeapi.co/api/v2/pokemon/" ++ String.toLower name ++ "/"
 
         -- url =
         --     "http://localhost:4567/pokemon/name/" ++ name
     in
-        Http.send LoadPokemon (Http.get url decoder)
+    Http.send LoadPokemon (Http.get url decoder)
