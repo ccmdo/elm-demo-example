@@ -1,4 +1,4 @@
-module Update.Pokemon exposing (..)
+module Update.Pokemon exposing (fetchPokemon, loadPokemonError, loadPokemonSuccess)
 
 import Http
 import Model exposing (..)
@@ -15,7 +15,7 @@ loadPokemonSuccess pokemon model =
         newPokedex =
             { oldPokedex | pokemon = Just pokemon, error = Nothing }
     in
-        ( { model | pokedex = newPokedex }, Cmd.none )
+    ( { model | pokedex = newPokedex }, Cmd.none )
 
 
 loadPokemonError : Http.Error -> Model -> ( Model, Cmd Msg )
@@ -27,7 +27,7 @@ loadPokemonError error model =
         newPokedex =
             { oldPokedex | pokemon = Nothing, error = Just (toString error) }
     in
-        ( { model | pokedex = newPokedex }, Cmd.none )
+    ( { model | pokedex = newPokedex }, Cmd.none )
 
 
 fetchPokemon : Model -> ( Model, Cmd Msg )

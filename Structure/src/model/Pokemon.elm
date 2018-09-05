@@ -1,4 +1,4 @@
-module Model.Pokemon exposing (..)
+module Model.Pokemon exposing (Pokemon)
 
 
 type alias Pokemon =

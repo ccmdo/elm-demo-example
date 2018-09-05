@@ -1,8 +1,8 @@
 module View.Pokedex exposing (resetButton, view)
 
-import Html exposing (Html, div, button, text, h4, label, input, p)
-import Html.Events exposing (onInput, onClick)
-import Html.Attributes exposing (src, type_, value, disabled)
+import Html exposing (Html, button, div, h4, input, label, p, text)
+import Html.Attributes exposing (disabled, src, type_, value)
+import Html.Events exposing (onClick, onInput)
 import Model exposing (..)
 import Model.Pokedex as Pokedex exposing (..)
 

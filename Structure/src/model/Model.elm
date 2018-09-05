@@ -1,8 +1,8 @@
-module Model exposing (..)
+module Model exposing (Model, Msg(..), init)
 
+import Http
 import Model.Pokedex as Pokedex exposing (..)
 import Model.Pokemon as Pokemon exposing (..)
-import Http
 
 
 type Msg

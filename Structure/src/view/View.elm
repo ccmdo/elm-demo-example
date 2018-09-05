@@ -2,8 +2,8 @@ module View exposing (view)
 
 import Html exposing (Html, div)
 import Model exposing (..)
-import View.Pokemon exposing (..)
 import View.Pokedex exposing (..)
+import View.Pokemon exposing (..)
 
 
 view : Model -> Html Msg

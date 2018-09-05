@@ -1,4 +1,4 @@
-module Update.Pokedex exposing (..)
+module Update.Pokedex exposing (resetPokedexSearch, updatePokedexSearch)
 
 import Model exposing (..)
 
@@ -12,7 +12,7 @@ resetPokedexSearch model =
         newPokedex =
             { oldPokedex | search = "", pokemon = Nothing, error = Nothing }
     in
-        ( { model | pokedex = newPokedex }, Cmd.none )
+    ( { model | pokedex = newPokedex }, Cmd.none )
 
 
 updatePokedexSearch : String -> Model -> ( Model, Cmd Msg )
@@ -24,4 +24,4 @@ updatePokedexSearch newSearch model =
         newPokedex =
             { oldPokedex | search = newSearch }
     in
-        ( { model | pokedex = newPokedex }, Cmd.none )
+    ( { model | pokedex = newPokedex }, Cmd.none )
