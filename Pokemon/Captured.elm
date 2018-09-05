@@ -1,10 +1,11 @@
-module Captured exposing (..)
+module Captured exposing (Ball(..), BallHPFactor(..), Captured(..), Model, Msg(..), Status(..), StatusFactor(..), ballHPFactorValueFromBall, ballRNGCmd, ballRNGGenerator, ballRNGLimitValueFromBall, emptyModel, init, statusFactorValueFromStatus, statusValueFromStatusFactor, update, updateBall, updateStatus, view, wasItCaptured)
 
-import Html exposing (Html, br, div, text, button)
+import Html exposing (Html, br, button, div, text)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
-import Select
 import Random
+import Select
+
 
 
 -- MODEL
@@ -94,36 +95,35 @@ type Msg
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    (case msg of
+    case msg of
         NewBall newBall ->
             let
                 newModel =
                     updateBall newBall model
             in
-                ( newModel, ballRNGCmd newBall )
+            ( newModel, ballRNGCmd newBall )
 
         NewStatus newStatus ->
             let
                 newModel =
                     updateStatus newStatus model
             in
-                ( newModel, Cmd.none )
+            ( newModel, Cmd.none )
 
         Throw ->
             let
                 newModel =
                     wasItCaptured model
             in
-                ( newModel, Cmd.none )
-                    |> Debug.log "update.result"
+            ( newModel, Cmd.none )
+                |> Debug.log "update.result"
 
         UpdateBallRNGValue ballRNGValue ->
             let
                 newModel =
                     { model | ballRNG = ballRNGValue }
             in
-                ( newModel, Cmd.none )
-    )
+            ( newModel, Cmd.none )
 
 
 
@@ -139,14 +139,14 @@ view model =
         statuses =
             [ NoStatus, Asleep, Burned, Frozen, Paralysed, Poisoned ]
     in
-        div
-            [ style [ ( "padding", "5rem" ) ] ]
-            [ text <| "Calculator"
-            , br [] []
-            , Select.from balls NewBall
-            , Select.from statuses NewStatus
-            , button [ onClick Throw ] [ text "Throw" ]
-            ]
+    div
+        [ style [ ( "padding", "5rem" ) ] ]
+        [ text <| "Calculator"
+        , br [] []
+        , Select.from balls NewBall
+        , Select.from statuses NewStatus
+        , button [ onClick Throw ] [ text "Throw" ]
+        ]
 
 
 
@@ -162,9 +162,9 @@ ballRNGGenerator : Ball -> Random.Generator Int
 ballRNGGenerator ball =
     let
         upperLimit =
-            ballRNGLimitValueFromBall (ball)
+            ballRNGLimitValueFromBall ball
     in
-        Random.int 0 upperLimit
+    Random.int 0 upperLimit
 
 
 ballRNGLimitValueFromBall : Ball -> Int
@@ -205,34 +205,34 @@ wasItCaptured model =
         _ ->
             let
                 calculation_r_star =
-                    model.ballRNG - statusValueFromStatusFactor (model.statusFactor)
+                    model.ballRNG - statusValueFromStatusFactor model.statusFactor
             in
-                case (calculation_r_star < 0) of
-                    True ->
-                        { model | captured = Caught }
+            case calculation_r_star < 0 of
+                True ->
+                    { model | captured = Caught }
 
-                    _ ->
-                        case (model.catchRate < calculation_r_star) of
-                            True ->
-                                { model | captured = Escaped }
+                _ ->
+                    case model.catchRate < calculation_r_star of
+                        True ->
+                            { model | captured = Escaped }
 
-                            _ ->
-                                let
-                                    newModel =
-                                        (ballRNGCmd model.ball)
-                                            |> Debug.log "model.ball"
-                                in
-                                    model
-                                        |> Debug.log "newModel"
+                        _ ->
+                            let
+                                newModel =
+                                    ballRNGCmd model.ball
+                                        |> Debug.log "model.ball"
+                            in
+                            model
+                                |> Debug.log "newModel"
 
 
 updateBall : Ball -> Model -> Model
 updateBall ball model =
     let
         ballHPFactorValue =
-            ballHPFactorValueFromBall (ball)
+            ballHPFactorValueFromBall ball
     in
-        { model | ball = ball, ballHPFactor = ballHPFactorValue }
+    { model | ball = ball, ballHPFactor = ballHPFactorValue }
 
 
 ballHPFactorValueFromBall : Ball -> BallHPFactor
@@ -252,9 +252,9 @@ updateStatus : Status -> Model -> Model
 updateStatus status model =
     let
         statusFactorValue =
-            statusFactorValueFromStatus (status)
+            statusFactorValueFromStatus status
     in
-        { model | status = status, statusFactor = statusFactorValue }
+    { model | status = status, statusFactor = statusFactorValue }
 
 
 statusFactorValueFromStatus : Status -> StatusFactor
