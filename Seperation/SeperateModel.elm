@@ -1,6 +1,7 @@
-module SeperateModel exposing (..)
+module SeperateModel exposing (Model, Msg(..), init, initialModel, update, view)
 
 import Html exposing (Html, div, text)
+
 
 
 -- MODEL
